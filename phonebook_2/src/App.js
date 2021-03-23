@@ -24,21 +24,29 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    console.log('id calculation', persons.length)
-    const personObject = {
-      id: persons.length + 1,
-      name: newName,
-      number: newPhone,
+
+    if(persons.some(person => person.name == newName)) {
+      window.alert(`${newName} already exists in phonebook`)
     }
 
-    serverService
-      .create(personObject)
-      .then(response => {
-        console.log('this is response', response)
-        setPersons(persons.concat(response))
-        setNewName('')
-        setNewPhone('') 
-      })
+    else {
+
+      const personObject = {
+        id: persons.length + 1,
+        name: newName,
+        number: newPhone,
+      }
+
+      serverService
+        .create(personObject)
+        .then(response => {
+          console.log('this is response', response)
+          setPersons(persons.concat(response))
+          setNewName('')
+          setNewPhone('') 
+        })
+
+    }
     }
 
 
